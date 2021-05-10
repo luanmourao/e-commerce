@@ -30,9 +30,7 @@
     </div>
 
     <div>
-      <textarea name="description">
-        {{product.description}}
-      </textarea>
+      <textarea name="description">{{product.description}}</textarea>
     </div>
 </div>
 
@@ -44,8 +42,8 @@
     </div>
 
     <div>
-      <input type="text" name="price" placeholder="preço do produto" value="{{product.price}}">
-      {# neste input, faremos adiante uma máscara de dinheiro #}
+      <input type="text" name="price" placeholder="preço do produto" value="{{product.price}}"
+      onkeydown="Mask.apply(this, 'formatBRL')">
     </div>
 
     {% if product.old_price %}
