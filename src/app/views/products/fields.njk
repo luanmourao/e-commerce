@@ -57,11 +57,11 @@
     </div>
 
     <div>
-      <input type="number" name="quantity" placeholder="estoque disponível" value="{{product.quantity}}">
+      <input type="number" min="1" name="quantity" placeholder="estoque disponível" value="{{product.quantity}}">
     </div>
 </div>
 
-{% if product.status %}
+{% if (product.status == '1') or (product.status == 0) %}
   <div class="item">
       <div>
         Disponibilidade
