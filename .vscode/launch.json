@@ -1,0 +1,13 @@
+{
+  "configurations": [
+    {
+      "name": "Attach to Process",
+      "processId": "${command:PickProcess}",
+      "request": "attach",
+      "type": "node",
+      "address": "localhost",
+      "port": 9229
+    },
+
+  ]
+}
