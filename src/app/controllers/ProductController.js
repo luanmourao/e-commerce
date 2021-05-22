@@ -1,4 +1,4 @@
-const { formatPrice } = require('../../lib/utils');
+const { formatPrice, date } = require('../../lib/utils');
 const Category = require('../models/Category');
 const Product = require('../models/Product');
 const File = require('../models/File');
@@ -37,7 +37,32 @@ module.exports = {
     const filesPromise = req.files.map(file => File.create(file.filename, file.path, productId));
     await Promise.all(filesPromise);
 
-    return res.redirect(`/products/${productId}/edit`);
+    return res.redirect(`/products/${productId}`);
+  },
+
+  async show(req, res) {
+    let results = await Product.find(req.params.id);
+    const product = results.rows[0];
+
+    if (!product) return res.send("Product not found");
+
+    const { day, hour, minutes, month } = date(product.updated_at);
+
+    product.published = {
+      day: `${day}/${month}`,
+      hour: `${hour}h${minutes}`
+    };
+
+    product.oldPrice = formatPrice(product.old_price);
+    product.price = formatPrice(product.price);
+
+    results = await Product.files(product.id);
+    const files = results.rows.map(file => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+    }));
+
+    return res.render("products/show", { product, files });
   },
 
   async edit(req, res) {
@@ -91,15 +116,17 @@ module.exports = {
     }
 
     req.body.price = req.body.price.replace(/\D/g, "");
+    const oldProduct = await Product.find(req.body.id);
 
-    if (req.body.old_price != req.body.price) {
-      const oldProduct = await Product.find(req.body.id);
+    if (oldProduct.rows[0].price != req.body.price) {
       req.body.old_price = oldProduct.rows[0].price;
+    } else {
+        req.body.old_price = req.body.old_price.replace(/\D/g, "");
     }
 
     await Product.update(req.body);
 
-    return res.redirect(`/products/${req.body.id}/edit`);
+    return res.redirect(`/products/${req.body.id}`);
   },
 
   async delete(req, res) {

@@ -25,14 +25,15 @@ const PhotosUpload = {
 
   handleFileInput(event) {
     const { files: fileList } = event.target;
-    PhotosUpload.input = event.target;
+    this.input = event.target;
 
-    if (PhotosUpload.hasLimit(event)) return;
+    if (this.hasLimit(event)) return;
 
     Array.from(fileList).forEach(file => {
-      PhotosUpload.files.push(file);
+      this.files.push(file);
 
       const reader = new FileReader();
+      reader.readAsDataURL(file);
 
       reader.onload = () => {
         const preview = this.preview;
@@ -40,15 +41,13 @@ const PhotosUpload = {
         const image = new Image();
         image.src = String(reader.result);
 
-        const div = PhotosUpload.getContainer(image);
+        const div = this.getContainer(image);
 
         preview.appendChild(div);
       }
-
-      reader.readAsDataURL(file);
     });
 
-    PhotosUpload.input.files = PhotosUpload.getAllFiles();
+    this.input.files = this.getAllFiles();
   },
 
   hasLimit(event) {
@@ -95,11 +94,11 @@ const PhotosUpload = {
     const div = document.createElement("div");
     div.classList.add("photo");
 
-    div.onclick = PhotosUpload.removePhoto;
+    div.onclick = this.removePhoto;
 
     div.appendChild(image);
 
-    div.appendChild(PhotosUpload.getRemoveButton());
+    div.appendChild(this.getRemoveButton());
 
     return div;
   },
@@ -114,11 +113,11 @@ const PhotosUpload = {
 
   removePhoto(event) {
     const photoDiv = event.target.parentNode; // <div class="photo">
-    const photosArray = Array.from(PhotosUpload.preview.children);
+    const photosArray = Array.from(this.preview.children);
     const index = photosArray.indexOf(photoDiv);
 
     PhotosUpload.files.splice(index, 1);
-    PhotosUpload.input.files = PhotosUpload.getAllFiles();
+    PhotosUpload.input.files = this.getAllFiles();
 
     photoDiv.remove();
   },
@@ -137,5 +136,48 @@ const PhotosUpload = {
     photoDiv.remove();
   }
 
+};
+
+const ImageGallery = {
+  highlight: document.querySelector('.gallery .highlight > img'),
+  previews: document.querySelectorAll('.gallery-preview img'),
+
+  setImage(event) {
+    const { target } = event;
+    const previews = this.previews;
+    const highlight = this.highlight;
+
+    previews.forEach(preview => preview.classList.remove('active'));
+    target.classList.add('active');
+
+    highlight.src = target.src;
+    Lightbox.image.src = target.src;
+  }
+};
+
+const Lightbox = {
+  target: document.querySelector('.lightbox-target'),
+  image: document.querySelector('.lightbox-target img'),
+  closeButton: document.querySelector('.lightbox-target a.lightbox-close'),
+  
+  open() {
+    const target = this.target;
+    const closeButton = this.closeButton;
+
+    target.style.opacity = 1;
+    target.style.top = 0;
+    target.style.bottom = 0;
+    closeButton.style.top = 0;
+  },
+
+  close() {
+    const target = this.target;
+    const closeButton = this.closeButton;
+
+    target.style.opacity = 0;
+    target.style.top = "-100%";
+    target.style.bottom = "initial";
+    closeButton.style.top = "-80px";
+  }
 }
 
