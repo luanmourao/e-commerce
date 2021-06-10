@@ -46,7 +46,13 @@
     </div>
 
     <div class="input">
-      <input type="text" name="cpf_cnpj" placeholder="digite o número do documento" value="{{user.cpf_cnpj}}">
+      <input 
+        type="text" 
+        name="cpf_cnpj" 
+        placeholder="digite o número do documento" 
+        value="{{user.cpf_cnpj}}"
+        onkeydown="Mask.apply(this, 'cpfCnpj')"
+      >
     </div>
 </div>
 
@@ -56,7 +62,13 @@
     </div>
 
     <div class="input">
-      <input type="text" name="cep" placeholder="00000-000" value="{{user.cep}}">
+      <input 
+        type="text" 
+        name="cep" 
+        placeholder="00000-000" 
+        value="{{user.cep}}"
+        onkeydown="Mask.apply(this, 'cep')"
+      >
     </div>
 </div>
 
