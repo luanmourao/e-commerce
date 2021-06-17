@@ -4,7 +4,13 @@
     </div>
 
     <div class="input">
-      <input type="text" name="name" placeholder="digite seu nome completo" value="{{user.name}}">
+      <input 
+        type="text" 
+        name="name" 
+        placeholder="digite seu nome completo" 
+        value="{{user.name}}"
+        required
+      >
     </div>
 </div>
 
@@ -14,7 +20,14 @@
     </div>
 
     <div class="input">
-      <input type="email" name="email" placeholder="digite email" value="{{user.email}}">
+      <input 
+        type="email" 
+        name="email" 
+        placeholder="digite email" 
+        value="{{user.email}}"
+        onblur="Validate.apply(this, 'isEmail')"
+        required
+      >
     </div>
 </div>
 
@@ -24,7 +37,12 @@
     </div>
 
     <div class="input">
-      <input type="password" name="password" placeholder="digite sua senha" value="{{user.password}}">
+      <input 
+        type="password" 
+        name="password" 
+        placeholder="digite sua senha" 
+        required
+      >
     </div>
 </div>
 
@@ -35,7 +53,11 @@
     </div>
 
     <div class="input">
-      <input type="password" name="passwordRepeat" placeholder="repita a senha escolhida">
+      <input 
+        type="password" 
+        name="passwordRepeat" 
+        placeholder="repita a senha escolhida"
+      >
     </div>
   </div>
 {% endif %}
@@ -52,6 +74,8 @@
         placeholder="digite o número do documento" 
         value="{{user.cpf_cnpj}}"
         onkeydown="Mask.apply(this, 'cpfCnpj')"
+        onblur="Validate.apply(this, 'isCpfCnpj')"
+        required
       >
     </div>
 </div>
@@ -68,6 +92,8 @@
         placeholder="00000-000" 
         value="{{user.cep}}"
         onkeydown="Mask.apply(this, 'cep')"
+        onblur="Validate.apply(this, 'isCep')"
+        required
       >
     </div>
 </div>
@@ -78,7 +104,13 @@
     </div>
 
     <div class="input">
-      <input type="text" name="address" placeholder="digite seu endereço completo" value="{{user.address}}">
+      <input 
+        type="text" 
+        name="address" 
+        placeholder="digite seu endereço completo" 
+        value="{{user.address}}"
+        required
+      >
     </div>
 </div>
 
