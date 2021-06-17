@@ -8,7 +8,6 @@ routes.get('/', HomeController.index);
 routes.use('/products', products);
 routes.use('/users', users);
 
-// Alias 
 routes.get('ads/create', function(req, res) {
   return res.redirect('/products/create');
 });
