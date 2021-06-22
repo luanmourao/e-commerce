@@ -1,7 +1,8 @@
 :root {
   --darker-blue: #1B2B40; 
   --dark-blue: #182E59;
-  --light-blue: #2BC7D9;
+  /* --light-blue: #2BC7D9; */
+  --light-blue: #1f4668;
   --lighter-blue: #182E59;
   --light-beige: #F2F2F2;
   --bright-yellow: #F27C38; 
@@ -70,7 +71,7 @@ footer {
 }
 
 .button:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.3);
 }
 
 .button.delete:hover {
@@ -103,7 +104,7 @@ header div.container a {
 /*----------------------- LOGO ----------------------*/
 .logo h1 {
   color: white;
-  font-size: 36px;
+  font-size: 31px;
   line-height: 46px;
 }
 
