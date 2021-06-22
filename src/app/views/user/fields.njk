@@ -40,7 +40,11 @@
       <input 
         type="password" 
         name="password" 
-        placeholder="digite sua senha" 
+        {% if not user.id %}
+          placeholder="digite sua senha" 
+        {% else %}
+          placeholder="digite sua senha para atualizar o cadastro" 
+        {% endif %}
         required
       >
     </div>
