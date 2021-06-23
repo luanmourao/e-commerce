@@ -39,7 +39,10 @@ async function post(req, res, next) {
 
   if (password !== passwordRepeat) {
 
-    return res.render('user/register', { error: 'Os campos "SENHA" e "REPITA SUA SENHA" devem ser iguais. Tente novamente.', user: req.body }); 
+    return res.render('user/register', { 
+      error: 'Os campos "SENHA" e "REPITA SUA SENHA" devem ser iguais. Tente novamente.', 
+      user: req.body 
+    }); 
   }
 
   next();
