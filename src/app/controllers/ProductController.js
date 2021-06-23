@@ -19,6 +19,7 @@ module.exports = {
   },
   
   async post(req, res) {
+    const userId = req.user;
     const fields = Object.keys(req.body);
 
     for (field of fields) {
@@ -31,7 +32,7 @@ module.exports = {
       return res.send("Please, choose one product image at least");
     }
 
-    let results = await Product.create(req.body);
+    let results = await Product.create(req.body, userId);
     const productId = results.rows[0].id;
 
     const filesPromise = req.files.map(file => File.create(file.filename, file.path, productId));
