@@ -1,10 +1,21 @@
-section.login.container {
+section.login.container,
+section.password.container {
   max-width: 500px;
   margin-top: 100px;
 }
 
-section.login.container .fields {
+section.password.container .header {
   margin-bottom: 32px;
+}
+
+section.login.container .fields,
+section.password.container .fields {
+  margin-bottom: 32px;
+}
+
+section.password.container .fields .item div:first-child {
+  text-transform: initial;
+  font-size: 1.1rem;
 }
 
 section.login.container .footer ul {

@@ -17,17 +17,30 @@
 
 <div class="item">
     <div>
-      Senha
+      Digite sua NOVA senha
     </div>
 
     <div class="input">
       <input 
         type="password" 
         name="password" 
-        placeholder="digite sua senha" 
         required
       >
     </div>
 </div>
 
+<div class="item">
+    <div>
+      Repita a NOVA senha
+    </div>
 
+    <div class="input">
+      <input 
+        type="password" 
+        name="passwordRepeat" 
+        required
+      >
+    </div>
+</div>
+
+<input type="hidden" name="token" value="{{token}}">

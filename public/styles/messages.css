@@ -15,7 +15,7 @@
   top: 0;
   opacity: 1;
 
-  animation: hidemessage 400ms 5s ease-out forwards; 
+  animation: hidemessage 400ms 6s ease-out forwards; 
 }
 
 .messages.error {
@@ -23,5 +23,5 @@
 }
 
 .messages.success {
-  background-color: var(--lighter-blue);
+  background-color: #118015;
 }
