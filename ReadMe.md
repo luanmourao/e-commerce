@@ -1,4 +1,4 @@
-![landingPage](./public/assets/login.png)
+![image](./public/assets/login.png)
 </br>
 </br>
 
