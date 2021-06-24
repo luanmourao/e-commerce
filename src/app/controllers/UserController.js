@@ -51,5 +51,26 @@ module.exports = {
         
         return res.render('user/index', { error: "Algum erro ocorreu durante sua atualização" });
     }
+  },
+
+  async delete(req, res) {
+
+    try {
+      await User.delete(req.body.id);
+      
+      req.session.destroy();
+
+      return res.render('session/login', {
+        success: "Conta apagada com sucesso. Volte quando quiser!"
+      })
+
+
+    } catch (error) {
+        console.error(error);
+        return res.render('user/index', {
+          user: req.body,
+          error: "Erro ao tentar apagar sua conta. Tente novamente dentro de alguns minutos"
+        })
+    }
   }
 }
