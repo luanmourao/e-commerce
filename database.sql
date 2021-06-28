@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS "e-commerceDB";
+DROP DATABASE IF EXISTS "ecommercedb";
 
-CREATE DATABASE ecommerceDB;
+CREATE DATABASE ecommercedb;
 
 CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
@@ -102,3 +102,13 @@ ADD CONSTRAINT files_product_id_fkey
 FOREIGN KEY ("product_id")
 REFERENCES "products" ("id")
 ON DELETE CASCADE;
+
+-- to run seeds
+DELETE * FROM products;
+DELETE * FROM users;
+DELETE * FROM files;
+
+-- restart sequence auto_increment from tables's ids
+ALTER SEQUENCE products_id_seq RESTART WITH 1;
+ALTER SEQUENCE users_id_seq RESTART WITH 1;
+ALTER SEQUENCE files_id_seq RESTART WITH 1;
