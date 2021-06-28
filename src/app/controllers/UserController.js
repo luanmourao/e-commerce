@@ -1,5 +1,8 @@
-const User = require("../models/User");
+const { hash } = require('bcryptjs');
+const { unlinkSync } = require('fs');
 const { formatCep, formatCpfCnpj } = require('../../lib/utils');
+const User = require("../models/User");
+const Product = require("../models/Product");
 
 module.exports = {
   
@@ -9,20 +12,47 @@ module.exports = {
   },
 
   async show(req, res) {
-    const { user } = req;
 
-    user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj);
-    user.cep = formatCep(user.cep);
+    try {
+      const { user } = req;
 
-    return res.render('user/index', { user });
+      user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj);
+      user.cep = formatCep(user.cep);
+
+      return res.render('user/index', { user });
+
+    } catch (error) {
+        console.error(error);
+    }
+
   },
 
   async post(req, res) {
-    const userId = await User.create(req.body);
 
-    req.session.userId = userId;
-    
-    return res.redirect('/users');
+    try {
+      let { name, email, password, cpf_cnpj, cep, address } = req.body;
+
+      password = await hash(password, 8);
+      cpf_cnpj = cpf_cnpj.replace(/\D/g, "");
+      cep = cep.replace(/\D/g, "");
+
+      const userId = await User.create({
+        name, 
+        email,
+        password,
+        cpf_cnpj,
+        cep,
+        address
+      });
+
+      req.session.userId = userId;
+      
+      return res.redirect('/users');
+
+    } catch (error) {
+        console.error(error);
+    }
+
   },
 
   async update(req, res) {
@@ -56,14 +86,32 @@ module.exports = {
   async delete(req, res) {
 
     try {
+      // pegar todos os produtos do usuário
+      const products = await Product.findAll({ where: { user_id: req.body.id }});
+
+      // dos produtos, pegar todas as imagens
+      const allFilesPromise = products.map(product => Product.files(product.id));
+      let promiseResults = await Promise.all(allFilesPromise);
+
+      // remover o usuário do banco de dados e finalizar sua sessão
       await User.delete(req.body.id);
-      
       req.session.destroy();
+
+      // remover as imagens da pasta public
+      promiseResults.map(files => {
+        files.map(file => {
+          try {
+            unlinkSync(file.path)
+            
+          } catch (error) {
+              console.error(error);
+          }
+        });
+      });
 
       return res.render('session/login', {
         success: "Conta apagada com sucesso. Volte quando quiser!"
-      })
-
+      });
 
     } catch (error) {
         console.error(error);
