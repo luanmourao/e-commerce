@@ -15,15 +15,15 @@
               </div>
 
               <div class="price">
-                {{product.price}}
-                {% if product.oldPrice != product.price %}
-                  <span class="old-price">{{product.oldPrice}}</span>
+                {{product.formattedPrice}}
+                {% if product.formattedOldPrice != product.formattedPrice %}
+                  <span class="old-price">{{product.formattedOldPrice}}</span>
                 {% endif %}
               </div>
               
               <h4>{{product.name}}</h4>
 
-              <a href="/products/{{product.id}}" class="button">Ver Produto</a>
+              <a href="/products/product/{{product.id}}" class="button">Ver Produto</a>
             </div>
           {% endfor %}
       </div>
