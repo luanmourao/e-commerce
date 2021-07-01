@@ -3,6 +3,7 @@ const Product = require('../models/Product');
 const File = require('../models/File');
 const { formatPrice, date } = require('../../lib/utils');
 const { unlinkSync } = require('fs');
+const LoadProductService = require('../services/LoadProductService');
 
 module.exports = {
 
@@ -52,7 +53,7 @@ module.exports = {
       const filesPromise = req.files.map(file => File.create({ name: file.filename, path: file.path, product_id }));
       await Promise.all(filesPromise);
 
-      return res.redirect(`/products/${product_id}/edit`);
+      return res.redirect(`/products/product/${product_id}/edit`);
 
     } catch (error) {
         console.error(error);
@@ -63,29 +64,9 @@ module.exports = {
   async show(req, res) {
     
     try {
-      const product = await Product.findById(req.params.id);
+      const product = await LoadProductService.load('product', { where: { id: req.params.id } });
 
-      if (!product) {
-        return res.send("Product not found");
-      }
-
-      const { day, hour, minutes, month } = date(product.updated_at);
-
-      product.published = {
-        day: `${day}/${month}`,
-        hour: `${hour}h${minutes}`
-      };
-
-      product.oldPrice = formatPrice(product.old_price);
-      product.price = formatPrice(product.price);
-
-      let files = await Product.files(product.id);
-      files = files.map(file => ({
-        ...file,
-        src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
-      }));
-
-      return res.render("products/show", { product, files });
+      return res.render("products/show", { product });
 
     } catch (error) {
         console.error(error);
@@ -96,27 +77,14 @@ module.exports = {
   async edit(req, res) {
 
     try {
-      const product = await Product.findById(req.params.id);
-
-      if (!product) {
-        return res.send("Product not found");
-      }
-
-      product.price = formatPrice(product.price);
-      product.old_price = formatPrice(product.old_price);
+      const product = await LoadProductService.load('product', { where: { id: req.params.id } });
 
       const categories = await Category.findAll();
 
-      let files = await Product.files(product.id);
-      files = files.map(file => ({
-        ...file,
-        src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
-      }));
-
-      return res.render('products/edit', { product, categories, files });
+      return res.render('products/edit', { product, categories });
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 
   },
@@ -168,7 +136,7 @@ module.exports = {
         status
       });
 
-      return res.redirect(`/products/${req.body.id}`);
+      return res.redirect(`/products/product/${req.body.id}`);
 
     } catch (error) {
         console.error(error);
