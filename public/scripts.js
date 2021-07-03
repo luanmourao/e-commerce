@@ -288,6 +288,24 @@ const Validate = {
       error,
       value
     }
+  },
+
+  allFields(event) {
+    const items = document.querySelectorAll('.item input, .item select, .item textarea');
+
+    for (item of items) {
+      if (item.value === "") {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('messages');
+        messageElement.classList.add('error');
+        messageElement.innerHTML = "Por favor, preencha todos os campos";
+        document.querySelector('body').append(messageElement);
+
+        event.preventDefault();
+
+        return;
+      }
+    }
   }
 
 };
