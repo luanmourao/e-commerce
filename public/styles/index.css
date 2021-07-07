@@ -389,6 +389,15 @@ form .item #photos-preview img {
   opacity: 1;
 }
 
+.product-single .unavailable {
+  font-size: 14px;
+  color: #ccc;
+  font-weight: bold;
+
+  background: #eee;
+  padding: 8px 16px;
+}
+
 /* ---------------- LIGHTBOX PRODUCTS GALLERY -------------------*/
 .product-single .highlight .lightbox-target {
   position: fixed;
