@@ -19,7 +19,7 @@ const Cart = {
   },
 
   getCarItem(productId) {
-    return this.items.find(item => item.product.id === productId);
+    return this.items.find(item => item.product.id == productId);
   },
 
   addOne(product) {
@@ -76,7 +76,6 @@ const Cart = {
     }
 
     return this;
-
   },
 
   delete(productId) {
