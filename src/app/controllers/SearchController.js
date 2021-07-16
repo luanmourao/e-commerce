@@ -19,7 +19,7 @@ module.exports = {
       products = await Promise.all(productsPromise);
 
       const search = {
-        term: filter || 'Toda a loja',
+        term: filter || 'Todos os produtos',
         total: products.length == 0 ? "nenhum produto encontrado" : products.length == 1 ? `${products.length} produto encontrado` : `${products.length} produtos encontrados`
       };
 
