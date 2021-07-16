@@ -1,4 +1,4 @@
-![image](./public/assets/login2.png)
+![image](./public/assets/login.png)
 </br>
 </br>
 
