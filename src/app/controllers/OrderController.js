@@ -27,6 +27,20 @@ const emailMessage = (seller, product, buyer) =>
 
 module.exports = {
 
+  async index(req, res) {
+
+    try {
+      // busca os pedidos em que o usuário é o comprador
+      const orders = await LoadOrderService.load('orders', { where: { buyer_id: req.session.userId } });  
+
+      return res.render("orders/index", { orders });
+      
+    } catch (error) {
+        console.error(error);
+
+        return res.render('orders/error');
+    }
+  },
   async post(req, res) {
 
     try {
