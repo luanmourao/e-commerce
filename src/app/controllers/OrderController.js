@@ -41,6 +41,35 @@ module.exports = {
         return res.render('orders/error');
     }
   },
+
+  async sales(req, res) {
+
+    try {
+      // busca os pedidos em que o usuário é o vendedor
+      const sales = await LoadOrderService.load('orders', { where: { seller_id: req.session.userId } });  
+
+      return res.render("orders/sales", { sales });
+      
+    } catch (error) {
+        console.error(error);
+
+        return res.render('orders/error');
+    }
+  },
+
+  async show(req, res) {
+    try {
+      const order = await LoadOrderService.load('order', { where: { id: req.params.id } });
+
+      return res.render("orders/details", { order });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.render('orders/error');
+    }
+  },
+
   async post(req, res) {
 
     try {
