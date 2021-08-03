@@ -126,6 +126,47 @@ module.exports = {
         return res.render('orders/error');
     }
     
+  },
+
+  async update(req, res) {
+    try {
+      const { id, action } = req.params;
+      const acceptedActions = ['close', 'cancel'];
+
+      if (!acceptedActions.includes(action)) {
+        return res.status(403).send("Can't do this action");
+      }
+
+      // busca o pedido 
+      const order = await Order.findOne({ where: { id } });
+
+      if (!order) {
+        return res.status(404).send("Order not found");
+      }
+
+      // verifica se ele está com o status aberto
+      if (order.status != 'open') {
+        return res.status(403).send("Can't do this action");
+      }
+
+      // mapeia as ações de acordo com o parâmetro e atualiza o pedido
+      const status = {
+        close: "sold",
+        cancel: "canceled"
+      };
+
+      order.status = status[action];
+
+      await Order.update(id, { status: order.status });
+
+      // redireciona
+      return res.redirect('/orders/sales');
+
+    } catch (error) {
+        console.error(error);
+
+        return res.render('orders/error');
+    }
   }
 
 }
