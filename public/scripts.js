@@ -310,3 +310,17 @@ const Validate = {
 
 };
 
+const ControlEvents = {
+
+  confirmSubmit(element, message) {
+
+    element.addEventListener("submit", (event) => {
+      const confirmation = confirm(`Tem certeza que deseja marcar este pedido como ${message}? Essa ação não poderá ser desfeita.`);
+
+      if (!confirmation) {
+        event.preventDefault();
+      }
+    })
+  }
+}
+
