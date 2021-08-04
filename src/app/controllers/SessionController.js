@@ -58,7 +58,7 @@ module.exports = {
           <p>Caso você não tenha solicitado alteração de senha, desconsidere este email</p>
           </br>
           <p>Atenciosamente,</p>
-          <p>Equipe | myE-Commerce</p>
+          <p style="font-weight: bold; color: #182E59; display: inline; border-bottom: 2px solid #F27C38">Equipe <span style="font-weight: bold; color: #F27C38">|</span> myE-Commerce</p>
         `
       })
 
