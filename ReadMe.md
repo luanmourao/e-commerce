@@ -67,7 +67,7 @@ Refatoração e melhorias</br></br>
 </br>
 <h2>Executando o projeto na sua máquina</h2>
 
-Rodar os seguintes comandos na pasta do projeto:
+Depois de configurar seu banco de dados conforme o arquivo database.sql, execute os seguintes comandos na pasta do projeto:
 ```bash
 # Install dependencies
 $ npm install
